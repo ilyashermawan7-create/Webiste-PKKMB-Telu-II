@@ -1,0 +1,124 @@
+@import "tailwindcss";
+
+/*
+ * Design token PKKMB Telkom University.
+ * Tailwind v4 memakai konfigurasi berbasis CSS (@theme) sebagai pengganti tailwind.config.
+ * Nilai warna brand mengikuti identitas visual resmi Tel-U — JANGAN menambah warna brand lain.
+ */
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Warna brand Tel-U */
+  --color-telu-red: #ed1e28;
+  --color-telu-maroon: #b6252a;
+  --color-telu-silver: #959597;
+  --color-telu-gray: #55565b;
+
+  /* Turunan merah untuk teks kecil: #ED1E28 di atas putih = 4.36:1 (< AA teks normal),
+     sehingga teks kecil memakai maroon (#B6252A = 6.2:1) atau red-700 di bawah ini. */
+  --color-telu-red-50: #fdeced;
+  --color-telu-red-100: #fbd5d7;
+  --color-telu-red-700: #c4141d; /* 5.6:1 di atas putih */
+  --color-telu-red-900: #6e1418;
+
+  /* Warna status (saturasi rendah) */
+  --color-success: #2f7d55;
+  --color-warning: #a87412;
+  --color-info: #55565b;
+
+  --font-heading: var(--font-jakarta), "TelU Typeface", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), "TelU Typeface", ui-sans-serif, system-ui, sans-serif;
+
+  --radius-xl: 1rem;
+  --radius-2xl: 1.25rem;
+
+  --animate-marquee: marquee 40s linear infinite;
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+}
+
+/* Token semantik (light/dark) */
+:root {
+  --background: #ffffff;
+  --foreground: #16161a;
+  --muted: #f5f5f6;
+  --muted-foreground: #55565b;
+  --card: #ffffff;
+  --border: #e4e4e7;
+  --primary: #b6252a;          /* aksen utama untuk teks/tombol (lulus AA) */
+  --primary-foreground: #ffffff;
+  --ring: #ed1e28;
+}
+
+.dark {
+  --background: #0e0e11;
+  --foreground: #f4f4f5;
+  --muted: #1a1a1f;
+  --muted-foreground: #b4b4b8;
+  --card: #15151a;
+  --border: #2a2a31;
+  --primary: #ff4b53;          /* merah terang untuk kontras di latar gelap */
+  --primary-foreground: #0e0e11;
+  --ring: #ff4b53;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-card: var(--card);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-ring: var(--ring);
+}
+
+@layer base {
+  * { border-color: var(--border); }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "cv11", "ss01";
+  }
+  h1, h2, h3, h4 { font-family: var(--font-heading); letter-spacing: -0.02em; }
+  :focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; border-radius: 4px; }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+  }
+  /* Skala font yang bisa diperbesar pengguna (dipicu tombol aksesibilitas) */
+  html[data-font-scale="lg"] { font-size: 112.5%; }
+  html[data-font-scale="xl"] { font-size: 125%; }
+}
+
+@layer utilities {
+  /* Grid halus bernuansa teknologi */
+  .bg-tech-grid {
+    background-image:
+      linear-gradient(to right, color-mix(in oklab, var(--foreground) 6%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in oklab, var(--foreground) 6%, transparent) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .bg-telu-gradient { background-image: linear-gradient(135deg, #ed1e28 0%, #b6252a 55%, #6e1418 100%); }
+  .text-telu-gradient {
+    background-image: linear-gradient(90deg, #ed1e28, #b6252a);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .glass {
+    background: color-mix(in oklab, var(--background) 70%, transparent);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+  }
+  /* Glass di atas latar merah/gelap: tetap gelap-transparan agar teks putih kontras */
+  .glass-on-color {
+    background: rgb(255 255 255 / 0.12);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .mask-fade-b { mask-image: linear-gradient(to bottom, black 60%, transparent); }
+}

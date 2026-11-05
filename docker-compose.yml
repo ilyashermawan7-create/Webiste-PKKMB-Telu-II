@@ -1,0 +1,106 @@
+# PKKMB Telkom University — stack lengkap untuk VPS / pengembangan.
+# Jalankan: cp .env.docker.example .env && docker compose up -d --build
+name: pkkmb-telu
+
+x-backend-env: &backend-env
+  DB_HOST: postgres
+  REDIS_HOST: redis
+  AWS_ENDPOINT: http://minio:9000
+  FRONTEND_URL: ${SITE_URL:-http://localhost:3000}
+  APP_KEY: ${APP_KEY:?isi APP_KEY di .env}
+  DB_PASSWORD: ${DB_PASSWORD:-pkkmb}
+  AWS_ACCESS_KEY_ID: ${MINIO_ROOT_USER:-pkkmb}
+  AWS_SECRET_ACCESS_KEY: ${MINIO_ROOT_PASSWORD:-pkkmb-secret}
+  ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+
+x-backend: &backend
+  build: ./backend
+  restart: unless-stopped
+  env_file: ./backend/.env.docker
+  depends_on:
+    postgres: { condition: service_healthy }
+    redis: { condition: service_started }
+    minio-init: { condition: service_completed_successfully }
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: pkkmb
+      POSTGRES_USER: pkkmb
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-pkkmb}
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pkkmb"]
+      interval: 5s
+      retries: 10
+
+  redis:
+    image: redis:7.4-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes", "--maxmemory-policy", "allkeys-lru"]
+    volumes: [redisdata:/data]
+
+  minio:
+    image: minio/minio:RELEASE.2025-04-22T22-12-26Z
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-pkkmb}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-pkkmb-secret}
+    ports: ["9000:9000", "9001:9001"]
+    volumes: [miniodata:/data]
+
+  minio-init:
+    image: minio/mc:RELEASE.2025-04-16T18-13-26Z
+    depends_on: [minio]
+    entrypoint: >
+      /bin/sh -c "until mc alias set local http://minio:9000 $${MINIO_ROOT_USER:-pkkmb} $${MINIO_ROOT_PASSWORD:-pkkmb-secret}; do sleep 2; done;
+      mc mb -p local/pkkmb-private local/pkkmb-public; mc anonymous set download local/pkkmb-public; exit 0"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-pkkmb}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-pkkmb-secret}
+
+  backend:
+    <<: *backend
+    environment:
+      <<: *backend-env
+      CONTAINER_ROLE: app
+      SEED_DEMO: ${SEED_DEMO:-true}
+    ports: ["8000:8000"]
+
+  queue:
+    <<: *backend
+    command: ["php", "artisan", "queue:work", "--tries=3", "--max-time=3600"]
+    environment:
+      <<: *backend-env
+      CONTAINER_ROLE: worker
+    depends_on: [backend]
+
+  scheduler:
+    <<: *backend
+    command: ["php", "artisan", "schedule:work"]
+    environment:
+      <<: *backend-env
+      CONTAINER_ROLE: worker
+    depends_on: [backend]
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        NEXT_PUBLIC_SITE_URL: ${SITE_URL:-http://localhost:3000}
+        NEXT_PUBLIC_DEMO_MODE: ${DEMO_MODE:-true}
+    restart: unless-stopped
+    environment:
+      API_URL: http://backend:8000/api/v1
+      SESSION_SECRET: ${SESSION_SECRET:?isi SESSION_SECRET di .env}
+    ports: ["3000:3000"]
+    depends_on: [backend]
+
+volumes:
+  pgdata:
+  redisdata:
+  miniodata:
+  storage:

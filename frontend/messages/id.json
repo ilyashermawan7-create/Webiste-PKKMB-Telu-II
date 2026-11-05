@@ -1,0 +1,25 @@
+{
+  "nav": {
+    "home": "Beranda", "about": "Tentang", "schedule": "Jadwal", "attire": "Atribut", "campus": "Kenali Kampus",
+    "faculties": "Fakultas", "ukm": "UKM", "news": "Pengumuman", "gallery": "Galeri", "faq": "FAQ", "contact": "Kontak",
+    "login": "Masuk", "dashboard": "Dashboard", "more": "Lainnya", "menu": "Menu", "close": "Tutup"
+  },
+  "a11y": { "skip": "Lewati ke konten utama", "theme": "Ganti tema terang/gelap", "font": "Ukuran teks", "language": "Bahasa" },
+  "hero": {
+    "eyebrow": "PKKMB Telkom University",
+    "welcome": "Selamat datang, Young TeluTizen!",
+    "ctaLogin": "Masuk Dashboard", "ctaSchedule": "Lihat Jadwal",
+    "countdown": "Menuju hari-H", "days": "Hari", "hours": "Jam", "minutes": "Menit", "seconds": "Detik", "live": "PKKMB sedang berlangsung!", "done": "PKKMB telah selesai. Sampai jumpa di perkuliahan!"
+  },
+  "footer": {
+    "tagline": "Pengenalan Kehidupan Kampus bagi Mahasiswa Baru, diselenggarakan Direktorat Kemahasiswaan Telkom University.",
+    "explore": "Jelajahi", "help": "Bantuan", "report": "Laporkan kekerasan (anonim)", "verify": "Verifikasi sertifikat", "rights": "Hak cipta dilindungi."
+  },
+  "dash": {
+    "overview": "Ringkasan", "schedule": "Jadwal", "attendance": "Presensi", "assignments": "Tugas", "materials": "Materi",
+    "gamification": "Poin & Badge", "card": "Kartu Digital", "certificate": "Sertifikat", "assistant": "Asisten", "help": "Bantuan",
+    "group": "Gugus Saya", "grading": "Penilaian", "scanner": "Scanner QR", "broadcast": "Pengumuman",
+    "analytics": "Analitik", "sessions": "Sesi & QR", "content": "Konten", "users": "Pengguna & Gugus", "tickets": "Tiket", "audit": "Audit Log", "settings": "Pengaturan",
+    "logout": "Keluar", "profile": "Profil"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "nav": {
+    "home": "Home", "about": "About", "schedule": "Schedule", "attire": "Dress Code", "campus": "Campus",
+    "faculties": "Faculties", "ukm": "Clubs", "news": "News", "gallery": "Gallery", "faq": "FAQ", "contact": "Contact",
+    "login": "Sign in", "dashboard": "Dashboard", "more": "More", "menu": "Menu", "close": "Close"
+  },
+  "a11y": { "skip": "Skip to main content", "theme": "Toggle light/dark theme", "font": "Text size", "language": "Language" },
+  "hero": {
+    "eyebrow": "Telkom University Student Orientation",
+    "welcome": "Welcome, Young TeluTizen!",
+    "ctaLogin": "Open Dashboard", "ctaSchedule": "View Schedule",
+    "countdown": "Countdown to day one", "days": "Days", "hours": "Hours", "minutes": "Minutes", "seconds": "Seconds", "live": "Orientation is live!", "done": "Orientation has ended. See you in class!"
+  },
+  "footer": {
+    "tagline": "New Student Campus Life Orientation, organized by the Directorate of Student Affairs, Telkom University.",
+    "explore": "Explore", "help": "Help", "report": "Report violence (anonymous)", "verify": "Verify certificate", "rights": "All rights reserved."
+  },
+  "dash": {
+    "overview": "Overview", "schedule": "Schedule", "attendance": "Attendance", "assignments": "Assignments", "materials": "Materials",
+    "gamification": "Points & Badges", "card": "Digital ID", "certificate": "Certificate", "assistant": "Assistant", "help": "Help",
+    "group": "My Groups", "grading": "Grading", "scanner": "QR Scanner", "broadcast": "Announcements",
+    "analytics": "Analytics", "sessions": "Sessions & QR", "content": "Content", "users": "Users & Groups", "tickets": "Tickets", "audit": "Audit Log", "settings": "Settings",
+    "logout": "Sign out", "profile": "Profile"
+  }
+}
