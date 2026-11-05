@@ -1,0 +1,116 @@
+# Blueprint Render — deploy sementara (paket gratis) PKKMB Telkom University.
+# Render Dashboard → New → Blueprint → pilih repo ini → Apply.
+#
+# Catatan paket gratis: layanan tidur setelah 15 menit tanpa trafik (bangun ±1 menit),
+# Postgres gratis kedaluwarsa 30 hari, file unggahan hilang saat redeploy (tanpa disk permanen),
+# tanpa worker/cron (antrean dijalankan sinkron, pengingat email H-1 nonaktif).
+# Jika Render menambahkan akhiran acak pada URL layanan, perbarui API_URL / FRONTEND_URL / APP_URL / NEXT_PUBLIC_SITE_URL.
+
+databases:
+  - name: pkkmb-db
+    plan: free
+    region: singapore
+    databaseName: pkkmb
+    user: pkkmb
+    ipAllowList: []
+
+services:
+  - type: keyvalue
+    name: pkkmb-redis
+    plan: free
+    region: singapore
+    maxmemoryPolicy: allkeys-lru
+    ipAllowList: []
+
+  # ---------- Backend Laravel ----------
+  - type: web
+    name: pkkmb-telu-ii-api
+    runtime: docker
+    plan: free
+    region: singapore
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    healthCheckPath: /up
+    envVars:
+      - key: PORT
+        value: "8000"
+      - key: APP_NAME
+        value: PKKMB Telkom University API
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_KEY
+        generateValue: true
+      - key: APP_URL
+        value: https://pkkmb-telu-ii-api.onrender.com
+      - key: FRONTEND_URL
+        value: https://pkkmb-telu-ii-web.onrender.com
+      - key: APP_TIMEZONE
+        value: Asia/Jakarta
+      - key: APP_LOCALE
+        value: id
+      - key: APP_FAKER_LOCALE
+        value: id_ID
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: LOG_LEVEL
+        value: warning
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_URL
+        fromDatabase:
+          name: pkkmb-db
+          property: connectionString
+      - key: REDIS_CLIENT
+        value: phpredis
+      - key: REDIS_URL
+        fromService:
+          type: keyvalue
+          name: pkkmb-redis
+          property: connectionString
+      - key: CACHE_STORE
+        value: redis
+      - key: QUEUE_CONNECTION
+        value: sync
+      - key: SESSION_DRIVER
+        value: array
+      - key: UPLOADS_DISK
+        value: local
+      - key: UPLOADS_PUBLIC_DISK
+        value: public
+      - key: MAIL_MAILER
+        value: log
+      - key: SSE_MAX_SECONDS
+        value: "0"
+      - key: TRUSTED_PROXIES
+        value: "*"
+      - key: FPM_MAX_CHILDREN
+        value: "6"
+      - key: SEED_DEMO
+        value: "true"
+      - key: SEED_MABA
+        value: "280"
+      - key: SSO_DRIVER
+        value: mock
+      - key: ANTHROPIC_MODEL
+        value: claude-opus-5-5
+
+  # ---------- Frontend Next.js ----------
+  - type: web
+    name: pkkmb-telu-ii-web
+    runtime: docker
+    plan: free
+    region: singapore
+    dockerfilePath: ./frontend/Dockerfile
+    dockerContext: ./frontend
+    healthCheckPath: /
+    envVars:
+      - key: API_URL
+        value: https://pkkmb-telu-ii-api.onrender.com/api/v1
+      - key: NEXT_PUBLIC_SITE_URL
+        value: https://pkkmb-telu-ii-web.onrender.com
+      - key: NEXT_PUBLIC_DEMO_MODE
+        value: "true"
+      - key: SESSION_SECRET
+        generateValue: true

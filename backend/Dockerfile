@@ -25,6 +25,7 @@ COPY --from=vendor /app /var/www/html
 RUN chmod +x /usr/local/bin/entrypoint \
     && chown -R www-data:www-data storage bootstrap/cache
 
+ENV FPM_MAX_CHILDREN=64
 EXPOSE 8000
 ENTRYPOINT ["entrypoint"]
 CMD ["supervisord", "-c", "/etc/supervisord.conf"]
