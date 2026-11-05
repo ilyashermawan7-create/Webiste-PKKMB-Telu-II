@@ -1,17 +1,18 @@
-# Aset logo resmi Telkom University
+# Aset logo PKKMB 2026 Telkom University
 
-File SVG di folder ini **hanya placeholder** agar aplikasi bisa berjalan.
-Ganti dengan file logo resmi dari Brand Guideline Telkom University (unduh dari
-Humas/Brand Center Tel-U) dengan nama yang sama:
+Sumber: `LOGO PKKMB POTRAIT.png` (2700×3375) dari panitia. Latar #FCFCFC dijadikan transparan
+dan dipotong rapat; warna & bentuk logo tidak diubah.
 
 | File | Kegunaan |
 |---|---|
-| `logo-telu-horizontal.svg` | Navbar, footer, kop dokumen (latar terang) |
-| `logo-telu-horizontal-white.svg` | Di atas latar merah/gelap |
-| `logo-telu-vertical.svg` | Halaman login, kartu identitas, splash PWA |
-| `logo-pkkmb.svg` | Logo kegiatan PKKMB tahun berjalan |
+| `logo-pkkmb.png` / `.webp` | Logo potret lengkap (hero, login, sertifikat) |
+| `logo-pkkmb-mark.png` / `@2x` | Emblem saja (navbar, sidebar, kartu digital) |
+| `icon-192.png`, `icon-512.png`, `icon-maskable-512.png` | Ikon PWA (emblem di kotak putih) |
+| `apple-icon.png`, `favicon.ico`, `favicon-48.png` | Ikon iOS & favicon |
 
-Aturan pemakaian (sesuai brand guideline):
+Aturan pemakaian:
 - Jangan mengubah proporsi, warna, menambah efek, atau merotasi logo.
-- Komponen `<Logo />` sudah memberi *clear space* minimal setinggi huruf "T" di sekeliling logo.
-- Ukuran minimum digital: tinggi 24 px (horizontal), 48 px (vertikal).
+- Di atas latar merah/gelap, logo selalu diletakkan pada badge putih (lihat komponen `<Logo onColor />`),
+  karena unsur abu-abu logo tidak kontras di latar gelap.
+- Untuk mengganti logo tahun berikutnya: timpa file dengan nama yang sama (proporsi bisa berbeda;
+  sesuaikan `width`/`height` di `src/components/layout/logo.tsx`).

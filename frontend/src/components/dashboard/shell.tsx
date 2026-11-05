@@ -49,7 +49,7 @@ export function DashboardShell({ user, nav, children }: { user: User; nav: NavIt
         const a = JSON.parse((e as MessageEvent).data);
         toast(a.title, { description: a.body?.slice(0, 120), duration: 8000 });
         if (document.visibilityState === "hidden" && "Notification" in window && Notification.permission === "granted") {
-          new Notification(a.title, { body: a.body?.slice(0, 120), icon: "/icon.svg" });
+          new Notification(a.title, { body: a.body?.slice(0, 120), icon: "/brand/icon-192.png" });
         }
       } catch { /* abaikan payload rusak */ }
     });

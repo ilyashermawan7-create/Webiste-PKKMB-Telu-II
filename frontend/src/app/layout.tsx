@@ -18,7 +18,10 @@ export const metadata: Metadata = {
   keywords: ["PKKMB", "Telkom University", "Tel-U", "mahasiswa baru", "Young TeluTizen", "ospek"],
   openGraph: { type: "website", locale: "id_ID", siteName: "PKKMB Telkom University", images: ["/opengraph-image"] },
   twitter: { card: "summary_large_image" },
-  icons: { icon: "/icon.svg", apple: "/icon.svg" },
+  icons: {
+    icon: [{ url: "/brand/favicon.ico", sizes: "any" }, { url: "/brand/icon-192.png", type: "image/png", sizes: "192x192" }],
+    apple: "/brand/apple-icon.png",
+  },
   appleWebApp: { capable: true, title: "PKKMB Tel-U", statusBarStyle: "default" },
 };
 

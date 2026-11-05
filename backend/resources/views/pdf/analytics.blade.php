@@ -15,6 +15,8 @@
 </style>
 </head>
 <body>
+  @php($logo = \App\Services\CertificateService::logoDataUri())
+  @if ($logo)<img src="{{ $logo }}" alt="Logo PKKMB 2026" style="float:right;height:70px">@endif
   <h1>Laporan PKKMB Telkom University</h1>
   <div class="muted">Dibuat {{ $generatedAt->translatedFormat('d F Y H:i') }} WIB</div>
 

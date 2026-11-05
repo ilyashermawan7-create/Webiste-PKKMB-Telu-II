@@ -15,8 +15,9 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
       <section className="relative hidden overflow-hidden bg-telu-gradient p-12 text-white lg:flex lg:flex-col lg:justify-between">
         <div className="bg-tech-grid absolute inset-0 opacity-30 [--foreground:#fff]" aria-hidden />
         <CircuitBg className="text-white/15" />
-        <Logo tone="white" className="relative" />
+        <Logo variant="horizontal" onColor className="relative" />
         <div className="relative">
+          <Logo variant="full" onColor href={null} className="mb-8 w-44" />
           <p className="text-sm font-semibold uppercase tracking-widest text-white/80">PKKMB Telkom University</p>
           <h1 className="mt-3 text-5xl font-extrabold leading-tight">Halo, Young TeluTizen!</h1>
           <p className="mt-4 max-w-md text-lg text-white/85">Masuk untuk melihat jadwal, presensi, tugas, materi, dan sertifikat PKKMB-mu.</p>

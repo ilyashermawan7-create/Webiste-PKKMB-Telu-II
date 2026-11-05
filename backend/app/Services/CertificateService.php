@@ -8,9 +8,7 @@ use App\Models\Certificate;
 use App\Models\PkkmbSession;
 use App\Models\Setting;
 use App\Models\User;
-use BaconQrCode\Renderer\Image\SvgImageBackEnd;
-use BaconQrCode\Renderer\ImageRenderer;
-use BaconQrCode\Renderer\RendererStyle\RendererStyle;
+use BaconQrCode\Renderer\GDLibRenderer;
 use BaconQrCode\Writer;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
@@ -58,18 +56,25 @@ class CertificateService
         return rtrim(config('app.frontend_url'), '/').'/verifikasi/'.$certificate->verify_hash;
     }
 
-    public function qrSvg(string $data, int $size = 160): string
+    /** QR sebagai PNG (DomPDF tidak merender QR SVG dengan andal). */
+    public function qrPng(string $data, int $size = 440): string
     {
-        $writer = new Writer(new ImageRenderer(new RendererStyle($size, 1), new SvgImageBackEnd));
+        return (new Writer(new GDLibRenderer($size, 1)))->writeString($data);
+    }
 
-        return $writer->writeString($data);
+    /** Logo PKKMB (PNG transparan) sebagai data URI untuk DomPDF. */
+    public static function logoDataUri(): ?string
+    {
+        $path = resource_path('images/logo-pkkmb.png');
+
+        return is_file($path) ? 'data:image/png;base64,'.base64_encode((string) file_get_contents($path)) : null;
     }
 
     /** Render PDF sertifikat (A4 landscape). */
     public function pdf(Certificate $certificate): string
     {
         $certificate->loadMissing('user.faculty', 'user.studyProgram');
-        $qr = base64_encode($this->qrSvg($this->verifyUrl($certificate)));
+        $qr = base64_encode($this->qrPng($this->verifyUrl($certificate)));
 
         return Pdf::loadView('pdf.certificate', [
             'certificate' => $certificate,
@@ -78,6 +83,7 @@ class CertificateService
             'theme' => Setting::get('theme_title', 'PKKMB Telkom University'),
             'year' => Setting::get('year', now()->year),
             'verifyUrl' => $this->verifyUrl($certificate),
+            'logo' => self::logoDataUri(),
         ])->setPaper('a4', 'landscape')->output();
     }
 }

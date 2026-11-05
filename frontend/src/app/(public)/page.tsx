@@ -1,6 +1,7 @@
 import { ArrowRight, Building2, CalendarDays, GraduationCap, HeartHandshake, Map, Shirt, ShieldCheck, Sparkles, Users } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
+import { Logo } from "@/components/layout/logo";
 import { AnnouncementCard } from "@/components/pkkmb/announcement-card";
 import { CircuitBg } from "@/components/pkkmb/circuit-bg";
 import { Countdown } from "@/components/pkkmb/countdown";
@@ -71,6 +72,9 @@ export default async function HomePage() {
           </div>
 
           <div className="grid grid-cols-2 gap-3 sm:gap-4">
+            <div className="col-span-2 flex justify-center lg:justify-start">
+              <Logo variant="full" onColor href={null} className="w-40 sm:w-48" />
+            </div>
             <StatCard tone="glass" icon={<Users aria-hidden />} label="Young TeluTizen" value={stats.maba} suffix="+" />
             <StatCard tone="glass" icon={<Building2 aria-hidden />} label="Fakultas" value={stats.faculties} />
             <StatCard tone="glass" icon={<GraduationCap aria-hidden />} label="Program studi" value={stats.study_programs} />

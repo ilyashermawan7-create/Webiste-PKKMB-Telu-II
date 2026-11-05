@@ -158,7 +158,7 @@ teks kecil memakai maroon `#B6252A` (6.2:1) atau `#C4141D`.
 
 - **Backend Laravel** (sesuai permintaan) menggantikan Prisma/Auth.js: skema diwujudkan sebagai migrasi Laravel; tabel `Role` menjadi enum kolom `users.role`.
 - **Tailwind v4** memakai konfigurasi CSS (`@theme` di `frontend/src/app/globals.css`) sebagai pengganti `tailwind.config`.
-- **Logo** di `frontend/public/brand/` masih **placeholder**; ganti dengan file resmi (lihat `public/brand/README.md`). Font "TelU Typeface" dipakai otomatis bila terpasang; fallback Plus Jakarta Sans & Inter.
+- **Logo PKKMB 2026** resmi terpasang di `frontend/public/brand/` (navbar, hero, login, kartu digital, sertifikat PDF, ikon PWA, preview link); lihat `public/brand/README.md`. Font "TelU Typeface" dipakai otomatis bila terpasang; fallback Plus Jakarta Sans & Inter.
 - **Import data** memakai CSV (Excel → *Save As CSV UTF-8*); export presensi berupa CSV ber-BOM yang langsung terbuka di Excel, laporan ringkas dalam PDF.
 - **SSO kampus**: kontrak `SsoProvider` + `MockSsoProvider`; tombol SSO di halaman login dinonaktifkan sampai adapter resmi tersedia.
 - **Notifikasi**: pengumuman live (SSE) + Notification API browser, service worker siap menerima push, dan email pengingat H-1 via scheduler. Web Push dari server (VAPID) belum diimplementasikan.

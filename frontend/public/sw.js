@@ -1,6 +1,6 @@
 /* Service worker PKKMB: cache aset statis (offline-friendly) + notifikasi push. */
-const CACHE = "pkkmb-v1";
-const ASSETS = ["/", "/jadwal", "/atribut", "/faq", "/icon.svg", "/brand/logo-telu-horizontal.svg"];
+const CACHE = "pkkmb-v2";
+const ASSETS = ["/", "/jadwal", "/atribut", "/faq", "/brand/icon-192.png", "/brand/logo-pkkmb-mark.png"];
 
 self.addEventListener("install", (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(ASSETS)).then(() => self.skipWaiting()));
@@ -26,7 +26,7 @@ self.addEventListener("fetch", (e) => {
 
 self.addEventListener("push", (e) => {
   const data = e.data ? e.data.json() : { title: "PKKMB Tel-U", body: "Ada pengumuman baru." };
-  e.waitUntil(self.registration.showNotification(data.title, { body: data.body, icon: "/icon.svg", badge: "/icon.svg", data: { url: data.url || "/dashboard" } }));
+  e.waitUntil(self.registration.showNotification(data.title, { body: data.body, icon: "/brand/icon-192.png", badge: "/brand/icon-192.png", data: { url: data.url || "/dashboard" } }));
 });
 
 self.addEventListener("notificationclick", (e) => {

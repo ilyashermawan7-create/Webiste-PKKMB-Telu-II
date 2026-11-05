@@ -12,7 +12,7 @@ export async function Footer({ settings }: { settings: PublicSettings }) {
       <div className="h-1 bg-telu-gradient" aria-hidden />
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div>
-          <Logo tone="white" />
+          <Logo onColor />
           <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/70">{t("footer.tagline")}</p>
           <p className="mt-3 text-sm font-semibold text-white">Creating the Future</p>
         </div>

@@ -9,6 +9,7 @@ import type { CardData } from "./page";
 /** Kartu Young TeluTizen + unduh PNG (digambar ulang di canvas agar tajam & tanpa dependensi html2canvas). */
 export function IdCard({ data }: { data: CardData }) {
   const qrRef = useRef<HTMLDivElement>(null);
+  const logoRef = useRef<HTMLImageElement>(null);
   const [bright, setBright] = useState(false);
 
   const download = async () => {
@@ -19,7 +20,14 @@ export function IdCard({ data }: { data: CardData }) {
     const g = ctx.createLinearGradient(0, 0, W, H);
     g.addColorStop(0, "#ED1E28"); g.addColorStop(0.6, "#B6252A"); g.addColorStop(1, "#6E1418");
     ctx.fillStyle = g; ctx.beginPath(); ctx.roundRect(0, 0, W, H, 36); ctx.fill();
-    ctx.fillStyle = "rgba(255,255,255,.85)"; ctx.font = "600 26px Arial"; ctx.fillText("TELKOM UNIVERSITY · PKKMB", 56, 80);
+    ctx.fillStyle = "rgba(255,255,255,.85)"; ctx.font = "600 26px Arial"; ctx.fillText("TELKOM UNIVERSITY · PKKMB 2026", 56, 80);
+    // Logo PKKMB di badge putih (kanan atas), proporsi asli
+    const logo = logoRef.current;
+    if (logo?.complete && logo.naturalWidth) {
+      const lh = 120, lw = (logo.naturalWidth / logo.naturalHeight) * lh;
+      ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.roundRect(W - lw - 76, 40, lw + 28, lh + 28, 18); ctx.fill();
+      ctx.drawImage(logo, W - lw - 62, 54, lw, lh);
+    }
     ctx.fillStyle = "#fff"; ctx.font = "800 44px Arial"; ctx.fillText("Young TeluTizen", 56, 140);
     ctx.font = "700 40px Arial"; ctx.fillText(data.name.slice(0, 28), 56, 330);
     ctx.font = "500 28px Arial"; ctx.fillStyle = "rgba(255,255,255,.9)";
@@ -39,8 +47,14 @@ export function IdCard({ data }: { data: CardData }) {
       <div className="relative aspect-[1.586] overflow-hidden rounded-3xl bg-telu-gradient p-5 text-white shadow-2xl shadow-telu-red/30 sm:p-6">
         <div className="bg-tech-grid absolute inset-0 opacity-25 [--foreground:#fff]" aria-hidden />
         <div className="relative flex h-full flex-col">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/85">Telkom University · PKKMB</p>
-          <p className="font-heading text-xl font-extrabold">Young TeluTizen</p>
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/85">Telkom University · PKKMB 2026</p>
+              <p className="font-heading text-xl font-extrabold">Young TeluTizen</p>
+            </div>
+            {/* eslint-disable-next-line @next/next/no-img-element -- dipakai juga sebagai sumber gambar canvas */}
+            <img ref={logoRef} src="/brand/logo-pkkmb-mark@2x.png" alt="Logo PKKMB 2026" className="h-12 w-auto shrink-0 rounded-lg bg-white p-1" />
+          </div>
           <div className="mt-auto flex items-end justify-between gap-3">
             <div className="min-w-0">
               <p className="truncate font-heading text-lg font-extrabold leading-tight sm:text-xl">{data.name}</p>

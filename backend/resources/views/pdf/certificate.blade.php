@@ -9,7 +9,7 @@
   .page { position: relative; width: 297mm; height: 210mm; }
   .band { position: absolute; left: 0; top: 0; bottom: 0; width: 18mm; background: #B6252A; }
   .band-accent { position: absolute; left: 18mm; top: 0; bottom: 0; width: 3mm; background: #ED1E28; }
-  .content { position: absolute; left: 36mm; right: 20mm; top: 22mm; }
+  .content { position: absolute; left: 36mm; right: 60mm; top: 22mm; }
   .brand { font-size: 11pt; letter-spacing: 3px; color: #55565B; text-transform: uppercase; }
   h1 { font-size: 34pt; margin: 10mm 0 2mm; color: #B6252A; letter-spacing: 1px; }
   .sub { font-size: 12pt; color: #55565B; }
@@ -20,13 +20,15 @@
   .footer { position: absolute; left: 36mm; right: 20mm; bottom: 18mm; }
   .sign { display: inline-block; width: 80mm; vertical-align: bottom; font-size: 10pt; }
   .sign .line { border-top: 1px solid #959597; margin-top: 18mm; padding-top: 2mm; }
-  .qr { position: absolute; right: 0; bottom: 0; text-align: center; font-size: 8pt; color: #55565B; }
+  .qr { position: absolute; right: 20mm; bottom: 14mm; width: 40mm; text-align: center; font-size: 8pt; color: #55565B; }
   .number { font-size: 9pt; color: #959597; margin-top: 2mm; }
+  .logo { position: absolute; right: 20mm; top: 16mm; height: 46mm; }
 </style>
 </head>
 <body>
 <div class="page">
   <div class="band"></div><div class="band-accent"></div>
+  @if ($logo)<img class="logo" src="{{ $logo }}" alt="Logo PKKMB 2026 Telkom University">@endif
   <div class="content">
     <div class="brand">Telkom University &middot; Direktorat Kemahasiswaan</div>
     <h1>SERTIFIKAT</h1>
@@ -44,11 +46,11 @@
       Bandung, {{ $certificate->issued_at->translatedFormat('d F Y') }}
       <div class="line">Direktur Kemahasiswaan<br>Telkom University</div>
     </div>
-    <div class="qr">
-      <img src="data:image/svg+xml;base64,{{ $qr }}" width="110" height="110" alt="QR verifikasi"><br>
-      Pindai untuk verifikasi
-      <div class="number">No. {{ $certificate->number }}</div>
-    </div>
+  </div>
+  <div class="qr">
+    <img src="data:image/png;base64,{{ $qr }}" width="110" height="110" alt="QR verifikasi"><br>
+    Pindai untuk verifikasi
+    <div class="number">No. {{ $certificate->number }}</div>
   </div>
 </div>
 </body>

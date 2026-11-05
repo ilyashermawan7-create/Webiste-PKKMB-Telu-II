@@ -48,7 +48,7 @@ export function Navbar() {
   return (
     <header className={cn("sticky top-0 z-40 transition-all", scrolled ? "glass border-b border-border/60 shadow-sm" : "bg-transparent")}>
       <nav className="mx-auto flex h-16 max-w-7xl items-center gap-3 px-4 sm:px-6" aria-label="Navigasi utama">
-        <Logo tone={onColor ? "white" : "color"} />
+        <Logo onColor={onColor} />
         <ul className="ml-4 hidden items-center gap-0.5 xl:flex">
           {primary.map(([href, key]) => (
             <li key={href}>
